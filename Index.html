@@ -1,0 +1,46 @@
+<div id="hubspotForm"></div>
+
+<script src="https://js.hsforms.net/forms/v2.js"></script>
+
+<script>
+  hbspt.forms.create({
+    region: "na1",
+    portalId: "48409563",
+    formId: "8d86032c-9734-4a22-8915-07333bbfaae2",
+    target: "#hubspotForm",
+    onFormReady: function(form) {
+      // Find the input element for referral email ID
+      const fieldName = "referral_email_id"; // Replace with your exact internal name
+      const defaultValue = "test@test.com";
+
+      // Wait until input is rendered
+      const trySetField = () => {
+        // Query input by name inside the form
+        const input = form.querySelector(`input[name="${fieldName}"]`);
+        if (input) {
+          // Set value and make readonly
+          input.value = defaultValue;
+          input.setAttribute('readonly', true);
+          input.style.backgroundColor = "#f9f9f9";
+          input.style.border = "1px solid #ccc";
+          input.style.color = "#555";
+          input.style.pointerEvents = "none"; // prevent clicks/focus
+
+          // Check if hidden input already exists; if not, add it
+          if (!form.querySelector(`input[type="hidden"][name="${fieldName}"]`)) {
+            const hiddenInput = document.createElement('input');
+            hiddenInput.type = 'hidden';
+            hiddenInput.name = fieldName;
+            hiddenInput.value = defaultValue;
+            form.appendChild(hiddenInput);
+          }
+        } else {
+          // If input not found yet, try again after 100ms
+          setTimeout(trySetField, 100);
+        }
+      };
+
+      trySetField();
+    }
+  });
+</script>
